@@ -10,6 +10,9 @@ confdir_nrpe 	    ?= $(confdir)/nagios/nrpe.d
 # # path.
 ifeq ($(MAKELEVEL), 0)
     builddir	    := $(CURDIR)/build
+    # I build send-cache only, if this is top-level project.  Otherwise,
+    # parent project should include send-cache explicitly.
+    data	    := send-cache
 else
     builddir	    ?= build
     builddir	    := $(builddir)/$(notdir $(CURDIR))
@@ -22,7 +25,7 @@ project_bin	    := $(sbindir)/checkrsnapshot
 project_nrpe	    := $(confdir_nrpe)/check_rsnapshot.cfg
 
 programs	    := top bin
-data		    := nrpe send-cache
+data		    := $(data) nrpe
 
 include ./common-build/Makefile.common
 
