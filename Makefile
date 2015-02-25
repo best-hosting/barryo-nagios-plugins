@@ -6,14 +6,15 @@ plugindir	    ?= $(prefix)/lib/nagios/plugins
 confdir 	    ?= /etc
 confdir_nrpe 	    ?= $(confdir)/nagios/nrpe.d
 
-# Use build directory in current directory, if invoked manually, and in
-# central build directory otherwise.
+# $(builddir) is passed to send-cache's Makefile and, thus, must contain full
+# # path.
 ifeq ($(MAKELEVEL), 0)
-    builddir	    := build
+    builddir	    := $(CURDIR)/build
 else
     builddir	    ?= build
     builddir	    := $(builddir)/$(notdir $(CURDIR))
 endif
+export builddir
 srcdir		    := .
 
 project_top	    := $(plugindir)/check_rsnapshot
@@ -21,7 +22,7 @@ project_bin	    := $(sbindir)/checkrsnapshot
 project_nrpe	    := $(confdir_nrpe)/check_rsnapshot.cfg
 
 programs	    := top bin
-data		    := nrpe
+data		    := nrpe send-cache
 
 include ./common-build/Makefile.common
 
