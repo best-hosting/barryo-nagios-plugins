@@ -17,6 +17,8 @@ endif
 export builddir
 srcdir		    := .
 
+rsnapshot_configs   := $(shell find /etc -name 'rsnapshot*.conf' 2>/dev/null)
+
 project_top	    := $(plugindir)/check_rsnapshot
 project_bin	    := $(sbindir)/checkrsnapshot
 project_nrpe	    := $(confdir_nrpe)/check_rsnapshot.cfg
@@ -24,5 +26,12 @@ project_nrpe	    := $(confdir_nrpe)/check_rsnapshot.cfg
 programs	    := top bin
 data		    := nrpe send-cache
 
+test :
+	@./bin/checkrsnapshot.sh $$(find /etc -name 'rsnapshot*.conf' 2>/dev/null)
+
 include ./common-build/Makefile.common
+
+$(builddir)/nrpe/check_rsnapshot.cfg : $(rsnapshot_configs)
+	$(mkdir) $$(dirname $@)
+	./bin/checkrsnapshot.sh $^ > "$@"
 
