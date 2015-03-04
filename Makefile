@@ -34,7 +34,9 @@ test :
 
 include ./common-build/Makefile.common
 
+# First argument is empty, so instance guessing fails, and nrpe command for
+# default plugin cache will be generated.
 $(builddir)/nrpe/check_rsnapshot.cfg : $(rsnapshot_configs)
 	$(mkdir) $$(dirname $@)
-	./bin/checkrsnapshot.sh $^ > "$@"
+	./bin/checkrsnapshot.sh '' $^ > "$@"
 
