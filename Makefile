@@ -29,9 +29,6 @@ project_nrpe	    := $(confdir_nrpe)/check_rsnapshot.cfg
 programs	    := top bin
 data		    := $(data) nrpe
 
-test :
-	@./bin/checkrsnapshot.sh $$(find /etc -name 'rsnapshot*.conf' 2>/dev/null)
-
 include ./common-build/Makefile.common
 
 # First argument is empty, so instance guessing fails, and nrpe command for
