@@ -14,7 +14,8 @@
 #
 # If this script invoked from make, it assumes, that all arguments are pathes
 # to rsnapshot config files and output corresponding nrpe commands, one per
-# line.
+# line. nrpe commands will have format 'check_rsnapshot_instance' for each
+# recognized instance.
 
 set -euf
 
