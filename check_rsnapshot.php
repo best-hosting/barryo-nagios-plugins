@@ -248,7 +248,7 @@ function minfilesCheck()
             continue;
         }
 
-	$result = (float) $result;
+        $result = (float) $result;
 
         if( $result < $params[1] )
         {
@@ -353,7 +353,7 @@ function minsizeCheck()
             continue;
         }
 
-	$result = (float) $result;
+        $result = (float) $result;
 
         if( $result < $params[1] )
         {
