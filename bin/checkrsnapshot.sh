@@ -126,7 +126,7 @@ get_cache_opt()
     # Separate '--cache' and cache file name by first char of IFS.
     set -- '--cache' "$cache"
     if [ -n "$2" ]; then
-	echo "$*"
+        echo "$*"
     fi
 }
 
