@@ -1,0 +1,25 @@
+# vim swap files
+.*.swp
+.*.swo
+*~
+
+# build
+build/
+src/*/build
+
+# vim and tmux sessions
+*.vim
+*.gvim
+*.tmux
+
+# logs amd tmp files
+*.tmp
+*.log
+nohup.out
+
+# tmp dirs
+tmp/
+
+# tmp scripts
+t.sh
+t[0-9].sh

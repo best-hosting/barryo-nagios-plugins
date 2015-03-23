@@ -237,6 +237,8 @@ function minfilesCheck()
         _log( "Executing: $exec", LOG__DEBUG );
 
         $result = exec( $exec );
+        // Compatibility with BSD wc .
+        $result = str_replace( ' ', '', $result );
 
         _log( "Result: $result", LOG__DEBUG );
 
@@ -246,7 +248,7 @@ function minfilesCheck()
             continue;
         }
 
-	$result = (float) $result;
+        $result = (float) $result;
 
         if( $result < $params[1] )
         {
@@ -351,7 +353,7 @@ function minsizeCheck()
             continue;
         }
 
-	$result = (float) $result;
+        $result = (float) $result;
 
         if( $result < $params[1] )
         {
