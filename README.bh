@@ -1,5 +1,5 @@
 Git subtrees:
-send-cache/		    - nagios send-cache plugin repostiry.
+send-cache/                 - nagios send-cache plugin repository.
 common-build/               - common-build repository .
 
 Apart from some fixes, we've added checkrsnapshot wrapper for calling
