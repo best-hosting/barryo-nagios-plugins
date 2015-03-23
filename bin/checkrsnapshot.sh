@@ -1,5 +1,47 @@
 #!/bin/sh
 
+# This file is part of "barryo / nagios-plugins" - a library of tools and
+# utilities for Nagios developed by Barry O'Donovan
+# (http://www.barryodonovan.com/) and his company, Open Solutions
+# (http://www.opensolutions.ie/).
+#
+# Copyright (c) 2015, Best Hosting Company, Moscow, Russia
+# All rights reserved.
+#
+# Contact: sgf.dma@gmail.com
+#
+# LICENSE
+#
+# Redistribution and use in source and binary forms, with or without modification,
+# are permitted provided that the following conditions are met:
+#
+#  * Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+#
+#  * Redistributions in binary form must reproduce the above copyright notice, this
+#    list of conditions and the following disclaimer in the documentation and/or
+#    other materials provided with the distribution.
+#
+#  * Neither the name of Open Solutions nor the names of its contributors may be
+#    used to endorse or promote products derived from this software without
+#    specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+# INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+# OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# @package    barryo / nagios-plugins
+# @copyright  Copyright (c) 2015, Best Hosting Company, Moscow, Russia
+# @license    http://www.opensolutions.ie/licenses/new-bsd New BSD License
+# @link       http://www.opensolutions.ie/ Open Source Solutions Limited
+
 # Run check_rsnapshot plugin so that, it's output will be written to cache
 # file (understand by send-cache plugin) with name guessed from rsnapshot
 # config file name (all arguments are passed-through to check_rsnapshot).  In
