@@ -1,0 +1,11 @@
+Git subtrees:
+send-cache/		    - nagios send-cache plugin repostiry.
+common-build/               - common-build repository .
+
+Apart from some fixes, we've added checkrsnapshot wrapper for calling
+check_rsnapshot plugin and saving its result to cache using write-plugin-cache
+from send-cache nagios plugin . Then this cache file may be send to nagios
+using send-cache plugin . If i check rsnapshot using send-cache, i should
+always call check_rsnapshot plugin through wrapper, otherwise cache won't be
+updated.  See bin/checkrsnapshot.sh for details about wrapper and how to use
+it.
