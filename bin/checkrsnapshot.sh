@@ -141,7 +141,7 @@ if [ -n "${MAKELEVEL:-}" -a "${MAKEFLAGS+x}" = 'x' ]; then
         instance="$(get_instance "$1")"
         cache_opt="$(get_cache_opt "$1")"
         echo -n "command[check_rsnapshot${instance:+_$instance}]="
-        echo -n "/usr/local/lib/nagios/plugins/send_cache $cache_opt /usr/local/lib/nagios/plugins/check_rsnapshot"
+        echo -n "/usr/local/lib/nagios/plugins/send_cache $cache_opt --fresh 2160 /usr/local/lib/nagios/plugins/check_rsnapshot"
         echo
         shift;
     done
