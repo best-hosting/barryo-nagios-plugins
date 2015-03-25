@@ -61,7 +61,9 @@
 
 set -euf
 
-nl='
+readonly True=1
+readonly False=0
+readonly nl='
 '
 
 # Try to find config file path among cmd arguments (search for '-c path' as
@@ -137,14 +139,38 @@ if [ -n "${MAKELEVEL:-}" -a "${MAKEFLAGS+x}" = 'x' ]; then
     # Generate nrpe command for each rsnapshot config (number of commands will
     # be equal to number of config files). And if for some configs i can't
     # guess instance, several default commands (identical) will be output.
+    generate_default_conf=$False
+    empty_instance=$False
+    fresh=2160
     for i; do
+	# Treat empty config specially - as fallback entry without instance,
+	# which does not match any real config. But if i have real configs
+	# without instance, i shouldn't generate fallback entry. So i should
+	# postpone this up to the cycle end.
+	if [ -z "$i" ]; then
+	    generate_default_conf=$True
+	    shift
+	    continue
+	fi
+	plugin="/usr/local/lib/nagios/plugins/check_rsnapshot -c $i"
         instance="$(get_instance "$1")"
+	if [ -z "$instance" ]; then
+	    empty_instance=$True
+	fi
         cache_opt="$(get_cache_opt "$1")"
         echo -n "command[check_rsnapshot${instance:+_$instance}]="
-        echo -n "/usr/local/lib/nagios/plugins/send_cache $cache_opt --fresh 2160 /usr/local/lib/nagios/plugins/check_rsnapshot"
+        echo -n "/usr/local/lib/nagios/plugins/send_cache $cache_opt ${fresh:+--fresh $fresh} $plugin"
         echo
-        shift;
+        shift
     done
+    if [ $generate_default_conf = $True -a $empty_instance = $False ]; then
+	# Generate fallback entry, which just checks default plugin cache
+	# file.  I use plugin name, not path, so plugin can't be executed by
+	# send-cache in any case.
+        echo -n "command[check_rsnapshot]="
+        echo -n "/usr/local/lib/nagios/plugins/send_cache check_rsnapshot"
+        echo
+    fi
 else
     # Normal invocation. Exec write-plugin-cache with guessed from arguments
     # cache file for running check_rsnapshot plugin and pass-through all
