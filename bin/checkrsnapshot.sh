@@ -110,11 +110,17 @@ get_instance()
 
 # Derive cache file name from rsnapshot's config file path (calls
 # get_instance() internally) and output send-cache (or write-plugin-cache)
-# options for using generated cache file. If instance is empty, no options
-# will be output, and then send-cache and write-plugin-cache will try to use
-# default cache. That means, that i should always pass plugin name to them (so
-# they can derive default cache name) and that i should check default plugin
-# cache too (in case some instance won't work).
+# options for using generated cache file. If instance is empty, output options
+# for using default plugin cache name. I can't rely on send-cache for deriving
+# default cache name from plugin name, because when i use send-cache's
+# '--fresh' option, it tries to re-run plugin, when cache is out of date and
+# plugin name has defined, but check_rsnapshot can only be run from root , so
+# re-run will always fail. Thus, to make send-cache just display out of date
+# warning without trying to re-run plugin, i should specify cache file, but
+# not plugin name in any case.
+#
+# That also means, that i should check default plugin cache too (in case some
+# instance won't work).
 #
 # Output options separated by first IFS char.
 get_cache_opt()
@@ -124,7 +130,11 @@ get_cache_opt()
     local cache=''
 
     instance="$(get_instance "$config")"
-    cache="${instance:+check_rsnapshot_${instance}.cache}"
+    if [ -n "$instance" ]; then
+	cache="check_rsnapshot_${instance}.cache"
+    else
+	cache="check_rsnapshot.cache"
+    fi
     # Separate '--cache' and cache file name by first char of IFS.
     set -- '--cache' "$cache"
     if [ -n "$2" ]; then
@@ -152,23 +162,22 @@ if [ -n "${MAKELEVEL:-}" -a "${MAKEFLAGS+x}" = 'x' ]; then
 	    shift
 	    continue
 	fi
-	plugin="/usr/local/lib/nagios/plugins/check_rsnapshot -c $i"
         instance="$(get_instance "$1")"
 	if [ -z "$instance" ]; then
 	    empty_instance=$True
 	fi
         cache_opt="$(get_cache_opt "$1")"
         echo -n "command[check_rsnapshot${instance:+_$instance}]="
-        echo -n "/usr/local/lib/nagios/plugins/send_cache $cache_opt ${fresh:+--fresh $fresh} $plugin"
+        echo -n "/usr/local/lib/nagios/plugins/send_cache $cache_opt ${fresh:+--fresh $fresh}"
         echo
         shift
     done
     if [ $generate_default_conf = $True -a $empty_instance = $False ]; then
 	# Generate fallback entry, which just checks default plugin cache
-	# file.  I use plugin name, not path, so plugin can't be executed by
-	# send-cache in any case.
+	# file (without instance).
+        cache_opt="$(get_cache_opt '')"
         echo -n "command[check_rsnapshot]="
-        echo -n "/usr/local/lib/nagios/plugins/send_cache check_rsnapshot"
+        echo -n "/usr/local/lib/nagios/plugins/send_cache $cache_opt"
         echo
     fi
 else
